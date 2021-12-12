@@ -1,18 +1,15 @@
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
-/**
- * PTP_Segment represents a segment of the reliable transport protocol
- */
 public class PTP_Segment {
-    
-    private byte Synbit;
-    private byte Finbit;
-    private byte[] seq_number;
-    private byte[] ack_number;
-    private byte[] file_data;
 
-    PTP_Segment (Boolean Synbit, Boolean Finbit, Integer seq_number, Integer ack_number, byte[] file_data ) {
+    public byte Synbit;
+    public byte Finbit;
+    public byte[] seq_number;
+    public byte[] ack_number;
+    public byte[] file_data;
+
+    public PTP_Segment (Boolean Synbit, Boolean FinBit, Integer seq_number, Integer ack_number, byte[] file_data){
 
         if (Synbit == true) {
             this.Synbit = 1;
@@ -20,7 +17,7 @@ public class PTP_Segment {
             this.Synbit = 0;
         }
 
-        if (Finbit == true) {
+        if (FinBit == true) {
             this.Finbit = 1;
         } else {
             this.Finbit = 0;
@@ -30,13 +27,22 @@ public class PTP_Segment {
         this.ack_number = convertIntToBytes(ack_number);
 
         this.file_data = file_data;
+
+    }
+
+    public PTP_Segment (byte Synbit, byte Finbit, byte[] seq_number, byte[] ack_number, byte[] file_data) {
+        this.Synbit = Synbit;
+        this.Finbit = Finbit;
+        this.seq_number = seq_number;
+        this.ack_number = ack_number;
+        this.file_data = file_data;
     }
 
     public byte[] convertIntToBytes(Integer n){
 
-        ByteBuffer byte_array = ByteBuffer.allocate(4); 
-        byte_array.putInt(n); 
-        return byte_array.array();
+        ByteBuffer bb = ByteBuffer.allocate(4); 
+        bb.putInt(n); 
+        return bb.array();
     }
 
     public byte[] convertPTPTOUDP(){
@@ -111,4 +117,6 @@ public class PTP_Segment {
         int a = ByteBuffer.wrap(b).getInt();
         return a;
     }
+     
 }
+
